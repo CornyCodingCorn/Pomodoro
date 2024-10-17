@@ -1,6 +1,8 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:Pomodoro.ViewModels"
+        xmlns:converter="using:Pomodoro.Converters"
+        xmlns:controls="using:Pomodoro.Controllers"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -10,6 +12,11 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Pomodoro">
+    
+    <Window.Resources>
+        <converter:TimeToStringConverter x:Key="TimeToStringConverter"/>
+        <converter:BooleanFlipConverter x:Key="BooleanFlipConverter"/>
+    </Window.Resources>
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -18,8 +25,20 @@
     </Design.DataContext>
     
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center">10:10</TextBlock>
-        <Button>Ready</Button>
+        
+        <StackPanel Orientation="Horizontal">
+            <controls:EditableTextBlock IsEditing="{Binding IsRunning, Mode=TwoWay}"
+                                        Width="40" 
+                                        Height="40" 
+                                        FontSize="24"
+                                        Text="10"/>
+            <TextBlock Text="Testing fuck you" IsVisible="{Binding IsRunning}"/>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal">
+            <Button x:Name="StopBtn" Content="Stop"/>
+            <Button x:Name="StartBtn" Content="Start" Command="{Binding EditCommand}"/>
+        </StackPanel>
     </StackPanel>
 
 </Window>

@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Pomodoro.Controllers"
+             xmlns:converter="clr-namespace:Pomodoro.Converters"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Pomodoro.Controllers.EditableTextBlock"
+             x:DataType="local:EditableTextBlockViewModel"
+             IsEditing="{Binding IsEditing}"
+             Text="{Binding Text}"
+             x:Name="EditableButton"
+             >
+    <UserControl.Resources>
+        <converter:BooleanFlipConverter x:Key="BooleanFlipConverter"/>
+    </UserControl.Resources>
+    
+    <Design.DataContext>
+        <local:EditableTextBlockViewModel/>
+    </Design.DataContext>
+    
+    <Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TextBlock HorizontalAlignment="Stretch" 
+                   IsVisible="{Binding IsEditing, Converter={StaticResource BooleanFlipConverter}}"
+                   VerticalAlignment="Stretch" 
+                   FontSize="{Binding #EditableButton.FontSize}"
+                   FontFamily="{Binding #EditableButton.FontFamily}" 
+                   TextAlignment="Center"
+                   Text="{Binding #EditableButton.Text}"/>
+        <TextBox HorizontalAlignment="Stretch" 
+                 VerticalAlignment="Stretch"
+                 TextAlignment="Center"
+                 MinWidth="{Binding #EditableButton.Width}"
+                 MinHeight="{Binding #EditableButton.Height}"
+                 IsVisible="{Binding #EditableButton.IsEditing}"
+                 FontSize="{Binding #EditableButton.FontSize}"
+                 FontFamily="{Binding #EditableButton.FontFamily}" 
+                 Text="{Binding #EditableButton.Text}"/>
+    </Panel>
+</UserControl>
